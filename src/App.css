@@ -1,0 +1,89 @@
+/* .App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.root {
+  flexGrow: 1,
+}
+
+.menuButton {
+    /* marginRight: theme.spacing(2), */
+  /* }
+  .title {
+    flexGrow: 1,
+    display: 'none',
+  }
+  .search {
+    position: 'relative',
+    /* borderRadius: theme.shape.borderRadius, 
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    /* '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    }, 
+    marginLeft: 0,
+    width: '100%',
+    /* [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(1),
+      width: 'auto',
+    }, 
+  }
+  .searchIcon {
+    /* padding: theme.spacing(0, 2), 
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+  .inputRoot {
+    color: 'inherit',
+  }
+  .inputInput {
+    padding: theme.spacing(1, 1, 1, 0),
+    /* vertical padding + font size from searchIcon 
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    /* transition: theme.transitions.create('width'), 
+    width: '100%',
+    /* [theme.breakpoints.up('sm')]: {
+      width: '12ch',
+      '&:focus': {
+        width: '20ch',
+      },
+    }, 
+  } */ 
