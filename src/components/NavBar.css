@@ -1,0 +1,28 @@
+.menuButton {
+    margin-right: 10%;
+}
+
+.title {
+    flex-grow: 1;
+}
+
+.drawer-header {
+    width: 100%;
+    height: 100px;
+    background-image: url('./prioriTask-bg.png');
+    background-size: cover;
+}
+
+#logo {
+    width: 50%;
+    height: auto;
+}
+
+.list {
+    width: 50vmin;
+}
+
+.list-link {
+    text-decoration: none;
+    color: black;
+}
