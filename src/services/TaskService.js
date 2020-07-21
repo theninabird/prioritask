@@ -29,11 +29,11 @@ const update = (id, data) => {
 };
 
 const remove = id => {
-    return http.delete(`/tutorials/${id}`);
+    return http.delete(`/tasks/${id}`);
 };
 
 const removeAll = () => {
-    return http.delete(`/tutorials`);
+    return http.delete(`/tasks`);
 };
 
 export default {

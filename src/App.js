@@ -9,7 +9,7 @@ export default function App() {
 
   return (
     <Switch className="switch">
-      <Route exact path="/"component={AllTasks} />
+      <Route exact path="/" component={AllTasks} />
       <Route path="/today" component={Today} />
     </Switch>
   )
