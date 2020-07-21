@@ -1,0 +1,19 @@
+.task-click-space {
+    width: 100%;
+}
+
+.task-menu-button {
+    margin-left: auto;
+}
+
+h1 {
+    margin: 0;
+}
+
+.task-menu {
+    z-index: 1400;
+}
+
+.inline {
+    display: inline-block;
+}
