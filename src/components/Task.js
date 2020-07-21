@@ -138,6 +138,10 @@ export default function Task(props) {
         setDescription(e.target.value);
     };
 
+    const addSubtask = () => {
+        setSubTasks("");
+    };
+
     const handleSave = () => {
         // Save updated task
         handleEditClose();
@@ -225,6 +229,9 @@ export default function Task(props) {
                         <ToggleButton value='Custom'>Custom</ToggleButton>
                     </ToggleButtonGroup>
                     <DialogContentText>SUBTASKS</DialogContentText>
+                    <Button onClick={addSubtask} color="primary">
+                        Add Subtask
+                    </Button>
                     <TextField
                         margin="dense"
                         id="description"
