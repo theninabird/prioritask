@@ -27,12 +27,16 @@ const AddTask = (props) => {
     };
     const [task, setTask] = useState(initialTaskState);
     var today = new Date();
-    var tomorrow = today;
-    tomorrow.setDate(today.getDate() + 1);
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
 
     const handleInputChange = event => {
         const { name, value } = event.target;
         setTask({ ...task, [name]: value });
+    }
+
+    const handleToggleButtons = (event, value) => {
+        setTask({ ...task, dueDate: value });
     }
 
     const saveTask = () => {
@@ -52,6 +56,7 @@ const AddTask = (props) => {
                     completed: res.data.completed
                 });
                 console.log(res.data);
+                props.refreshTasks();
                 setOpen(false);
             })
             .catch(e => {
@@ -114,7 +119,7 @@ const AddTask = (props) => {
                 />
                 <Chip label="Add tag" onClick={handleClick} />
                 <DialogContentText>DUE DATE</DialogContentText>
-                <ToggleButtonGroup name="dueDate" value={task.dueDate} onChange={handleInputChange} exclusive aria-label="text dueDate">
+                <ToggleButtonGroup name="dueDate" value={task.dueDate} onChange={handleToggleButtons} exclusive aria-label="text dueDate">
                     <ToggleButton value={today}>Today</ToggleButton>
                     <ToggleButton value={tomorrow}>Tomorrow</ToggleButton>
                     <ToggleButton value='Custom'>Custom</ToggleButton>

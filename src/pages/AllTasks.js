@@ -13,6 +13,10 @@ export default function AllTasks(props) {
         retrieveTasks();
     }, []);
 
+    const refreshTasks = () => {
+        retrieveTasks();
+    };
+
     const retrieveTasks = () => {
         TaskDataService.getAll()
             .then(res => {
@@ -45,7 +49,7 @@ export default function AllTasks(props) {
     return (
         <div className="container">
             <NavBar title="All Tasks" />
-            <AddTask />
+            <AddTask refreshTasks={refreshTasks} />
             <List>
                 {taskList}  
             </List>
