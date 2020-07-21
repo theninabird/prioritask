@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import './CornerFab.css';
+import TaskDataService from "../services/TaskService";
+import './AddTask.css';
 
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import TextField from '@material-ui/core/TextField';
@@ -15,10 +15,52 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Chip from '@material-ui/core/Chip';
 
-const CornerFab = (props) => {
+const AddTask = (props) => {
+    // Add Task
+    const initialTaskState = {
+        _id: null,
+        title: "",
+        dueDate: "",
+        subTasks: [],
+        description: "",
+        completed: false
+    };
+    const [task, setTask] = useState(initialTaskState);
+    var today = new Date();
+    var tomorrow = today;
+    tomorrow.setDate(today.getDate() + 1);
+
+    const handleInputChange = event => {
+        const { name, value } = event.target;
+        setTask({ ...task, [name]: value });
+    }
+
+    const saveTask = () => {
+        var data = {
+            title: task.title,
+            dueDate: task.dueDate
+        };
+
+        TaskDataService.create(data)
+            .then(res => {
+                setTask({
+                    _id: res.data._id,
+                    title: res.data.title,
+                    dueDate: res.data.dueDate,
+                    subTasks: res.data.subTasks,
+                    description: res.data.description,
+                    completed: res.data.completed
+                });
+                console.log(res.data);
+                setOpen(false);
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    };
+
+    // Pop-up
     const [open, setOpen] = useState(false);
-    const [title, setTitle] = useState('');
-    const [dueDate, setDueDate] = useState('');
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -28,21 +70,21 @@ const CornerFab = (props) => {
         setOpen(false);
     };
 
-    const handleSave = (e) => {
-        setOpen(false);
-        e.preventDefault();
-        props.addTask(title, dueDate);
-        setTitle("");
-        setDueDate("");
-    };
+    // const handleSave = (e) => {
+    //     setOpen(false);
+    //     e.preventDefault();
+    //     props.addTask(title, dueDate);
+    //     setTitle("");
+    //     setDueDate("");
+    // };
 
-    const handleChangeTitle = (e) => {
-        setTitle(e.target.value);
-    };
+    // const handleChangeTitle = (e) => {
+    //     setTitle(e.target.value);
+    // };
 
-    const handleDueDate = (e, newDueDate) => {
-        setDueDate(newDueDate);
-    }
+    // const handleDueDate = (e, newDueDate) => {
+    //     setDueDate(newDueDate);
+    // }
 
     const handleClick = () => {
         console.log('Clicked');
@@ -66,30 +108,29 @@ const CornerFab = (props) => {
                     label="Title of task"
                     type="title"
                     fullWidth
-                    value={title}
-                    onChange={handleChangeTitle}
+                    name="title"
+                    value={task.title}
+                    onChange={handleInputChange}
                 />
                 <Chip label="Add tag" onClick={handleClick} />
                 <DialogContentText>DUE DATE</DialogContentText>
-
-                <ToggleButtonGroup value={dueDate} onChange={handleDueDate} exclusive aria-label="text dueDate">
-                    <ToggleButton value='Today'>Today</ToggleButton>
-                    <ToggleButton value='Tomorrow'>Tomorrow</ToggleButton>
+                <ToggleButtonGroup name="dueDate" value={task.dueDate} onChange={handleInputChange} exclusive aria-label="text dueDate">
+                    <ToggleButton value={today}>Today</ToggleButton>
+                    <ToggleButton value={tomorrow}>Tomorrow</ToggleButton>
                     <ToggleButton value='Custom'>Custom</ToggleButton>
                 </ToggleButtonGroup>
-                
-                <DialogContentText>REMINDERS</DialogContentText>
+                {/* <DialogContentText>REMINDERS</DialogContentText>
                 <ButtonGroup color="primary" aria-label="outlined primary button group">
                     <Button>Add date</Button>
                     <Button>Add time</Button>
                     <Button>Repeat?</Button>
-                </ButtonGroup>
+                </ButtonGroup> */}
                 </DialogContent>
                 <DialogActions>
                 <Button onClick={handleClose} color="primary">
                     Cancel
                 </Button>
-                <Button onClick={handleSave} color="primary">
+                <Button onClick={saveTask} color="primary">
                     Save
                 </Button>
                 </DialogActions>
@@ -97,4 +138,4 @@ const CornerFab = (props) => {
         </div>
     )
 }
-export default CornerFab;
+export default AddTask;
