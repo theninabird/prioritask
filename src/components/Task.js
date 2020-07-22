@@ -33,8 +33,7 @@ export default function Task(props) {
     };
     const [task, setTask] = useState(initialTaskState);
 
-    const checkedState = false;
-    const [checked, setChecked] = useState(checkedState);
+    const [checked, setChecked] = useState(false);
 
     const getTask = id => {
         TaskDataService.get(id)
@@ -53,7 +52,8 @@ export default function Task(props) {
     }, [props.id]);
 
     const handleToggle = (e) => {
-        setChecked(e.target.checked);
+        console.log(e.target.checked);
+        setChecked(!e.target.checked);
         console.log(checked);
         updateCompleted(checked);
     };
