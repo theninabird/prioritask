@@ -52,9 +52,7 @@ export default function Task(props) {
     }, [props.id]);
 
     const handleToggle = (e) => {
-        console.log(e.target.checked);
-        setChecked(!e.target.checked);
-        console.log(checked);
+        setChecked(e.target.checked);
         updateCompleted(checked);
     };
 
