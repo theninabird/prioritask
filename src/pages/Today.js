@@ -19,14 +19,17 @@ export default function Today() {
     };
 
     const retrieveTasks = () => {
-        TaskDataService.getDueToday(new Date())
-            .then(res => {
-                setTasks(res.data);
-                console.log(res.data);
-            })
-            .catch(e => {
-                console.log(e);
-            });
+      var today = new Date();
+      today = today.toString();
+      console.log(today);
+      TaskDataService.getDueToday(today)
+          .then(res => {
+              setTasks(res.data);
+              console.log(res.data);
+          })
+          .catch(e => {
+              console.log(e);
+          });
     };
     
     const taskList = tasks.map(task => (

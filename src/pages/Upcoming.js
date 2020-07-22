@@ -21,7 +21,8 @@ export default function Upcoming() {
     const retrieveTasks = () => {
         var tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1);
-        
+        tomorrow = tomorrow.toString();
+
         TaskDataService.getDueUpcoming(tomorrow)
             .then(res => {
                 setTasks(res.data);
