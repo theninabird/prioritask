@@ -42,11 +42,10 @@ export default function Task(props) {
     const getTask = id => {
         TaskDataService.get(id)
             .then(res => {
-                var dueDate = formatDate(res.data.dueDate);
                 setTask({
                     _id: res.data._id,
                     title: res.data.title,
-                    dueDate: dueDate,
+                    dueDate: res.data.dueDate,
                     subTasks: res.data.subTasks,
                     description: res.data.description,
                     completed: res.data.completed
@@ -61,7 +60,6 @@ export default function Task(props) {
 
     useEffect(() => {
         getTask(props.id);
-        // eslint-disable-next-line
     }, [props.id]);
 
     const handleToggle = (e) => {
