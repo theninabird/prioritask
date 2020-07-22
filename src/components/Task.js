@@ -166,6 +166,9 @@ export default function Task(props) {
     var today = new Date();
     var tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
+    console.log(today + typeof today);
+    console.log(tomorrow + typeof tomorrow);
+    console.log(task.dueDate  + typeof task.dueDate);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -189,11 +192,10 @@ export default function Task(props) {
             description: task.description,
             completed: status
         };
-        console.log(data);
+
         TaskDataService.update(task._id, data)
             .then(res => {
                 setTask({ ...task, completed: status });
-                console.log(task);
                 console.log(res.data);
             })
             .catch(e => {
