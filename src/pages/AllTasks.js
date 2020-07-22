@@ -42,6 +42,7 @@ export default function AllTasks(props) {
     const taskList = tasks.map(task => (
         <Task
           id={task._id}
+          refreshTasks={refreshTasks}
         />
       )
     );
@@ -52,7 +53,6 @@ export default function AllTasks(props) {
             <AddTask refreshTasks={refreshTasks} />
             <List>
                 {taskList}  
-                refreshTasks={refreshTasks}
             </List>
         </div>
     )
