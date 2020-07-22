@@ -21,7 +21,7 @@ export default function Upcoming() {
     const formatTomorrowDate = () => {
         var tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1);
-        return tomorrow.getDay() + "-" + (tomorrow.getMonth + 1) + "-" + tomorrow.getFullYear();
+        return tomorrow.getDay() + "-" + (tomorrow.getMonth() + 1) + "-" + tomorrow.getFullYear();
     }
 
     const retrieveTasks = () => {
