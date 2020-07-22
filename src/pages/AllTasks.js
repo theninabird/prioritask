@@ -12,7 +12,7 @@ export default function AllTasks() {
 
     useEffect(() => {
         retrieveTasks();
-    }, []);
+    });
 
     const refreshTasks = () => {
         retrieveTasks();

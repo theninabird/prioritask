@@ -12,16 +12,20 @@ export default function Upcoming() {
 
     useEffect(() => {
         retrieveTasks();
-    }, []);
+    });
 
     const refreshTasks = () => {
         retrieveTasks();
     };
 
-    const retrieveTasks = () => {
+    const formatTomorrowDate = () => {
         var tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1);
-        tomorrow = tomorrow.toString();
+        return tomorrow.getDay() + "-" + (tomorrow.getMonth + 1) + "-" + tomorrow.getFullYear();
+    }
+
+    const retrieveTasks = () => {
+        var tomorrow = formatTomorrowDate();
 
         TaskDataService.getDueUpcoming(tomorrow)
             .then(res => {

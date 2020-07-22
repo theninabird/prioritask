@@ -16,6 +16,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Chip from '@material-ui/core/Chip';
 
 const AddTask = (props) => {
+    const formatDate = date => {
+        return date.getDay() + "-" + (date.getMonth + 1) + "-" + date.getFullYear();
+    }
+    
     // Add Task
     const initialTaskState = {
         _id: null,
@@ -31,11 +35,11 @@ const AddTask = (props) => {
     var today = new Date();
     var tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    today = today.toDateString();
-    tomorrow = tomorrow.toDateString();
+    today = formatDate(today);
+    tomorrow = formatDate(tomorrow);
 
     var dueDate = new Date(String(task.dueDate));
-    dueDate = dueDate.toDateString();
+    dueDate = formatDate(dueDate);
 
     const handleInputChange = event => {
         const { name, value } = event.target;

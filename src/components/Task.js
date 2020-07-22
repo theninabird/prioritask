@@ -22,11 +22,15 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
 export default function Task(props) {
+    const formatDate = date => {
+        return date.getDay() + "-" + (date.getMonth + 1) + "-" + date.getFullYear();
+    }
+
     // Task properties
     const initialTaskState = {
         _id: null,
         title: "",
-        dueDate: {},
+        dueDate: "",
         subTasks: [],
         description: "",
         completed: false
@@ -73,11 +77,11 @@ export default function Task(props) {
     var today = new Date();
     var tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    today = today.toDateString();
-    tomorrow = tomorrow.toDateString();
+    today = formatDate(today);
+    tomorrow = formatDate(tomorrow);
 
     var dueDate = new Date(String(task.dueDate));
-    dueDate = dueDate.toDateString();
+    dueDate = formatDate(dueDate);
     
     // Calculate Due Date Labels
     const DueDateChip = () => {
@@ -178,7 +182,7 @@ export default function Task(props) {
         var data = {
             _id: task._id,
             title: task.title,
-            dueDate: task.dueDate,
+            dueDate: new Date(task.dueDate),
             subTasks: task.subTasks,
             description: task.description,
             completed: status

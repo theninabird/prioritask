@@ -12,16 +12,20 @@ export default function Today() {
 
     useEffect(() => {
         retrieveTasks();
-    }, []);
+    });
 
     const refreshTasks = () => {
         retrieveTasks();
     };
 
-    const retrieveTasks = () => {
+    const formatTodayDate = () => {
       var today = new Date();
-      today = today.toString();
-      console.log(today);
+      return today.getDay() + "-" + (today.getMonth + 1) + "-" + today.getFullYear();
+    }
+
+    const retrieveTasks = () => {
+      var today = formatTodayDate();
+
       TaskDataService.getDueToday(today)
           .then(res => {
               setTasks(res.data);
