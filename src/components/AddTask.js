@@ -17,7 +17,7 @@ import Chip from '@material-ui/core/Chip';
 
 const AddTask = (props) => {
     const formatDate = date => {
-        return date.getDay() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+        return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
     }
     
     // Add Task

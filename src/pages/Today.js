@@ -20,7 +20,7 @@ export default function Today() {
 
     const formatTodayDate = () => {
       var today = new Date();
-      return today.getDay() + "-" + (today.getMonth() + 1) + "-" + today.getFullYear();
+      return today.getDate() + "-" + (today.getMonth() + 1) + "-" + today.getFullYear();
     }
 
     const retrieveTasks = () => {
