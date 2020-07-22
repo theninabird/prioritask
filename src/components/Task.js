@@ -33,13 +33,14 @@ export default function Task(props) {
     };
     const [task, setTask] = useState(initialTaskState);
 
-    const checkedState = task.completed;
+    const checkedState = false;
     const [checked, setChecked] = useState(checkedState);
 
     const getTask = id => {
         TaskDataService.get(id)
             .then(res => {
                 setTask(res.data);
+                setChecked(res.data.completed);
                 console.log(res.data);
             })
             .catch(e => {
