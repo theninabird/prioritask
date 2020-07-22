@@ -52,6 +52,7 @@ export default function AllTasks(props) {
             <AddTask refreshTasks={refreshTasks} />
             <List>
                 {taskList}  
+                refreshTasks={refreshTasks}
             </List>
         </div>
     )

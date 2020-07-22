@@ -54,6 +54,7 @@ export default function Task(props) {
 
     const handleToggle = (e) => {
         setChecked(e.target.checked);
+        console.log(checked);
         updateCompleted(checked);
     };
 
@@ -154,7 +155,7 @@ export default function Task(props) {
         TaskDataService.remove(task._id)
             .then(res => {
                 console.log(res.data);
-                props.history.push("/tasks");
+                props.refreshTasks();
             })
             .catch(e => {
                 console.log(e);
@@ -190,10 +191,11 @@ export default function Task(props) {
             description: task.description,
             completed: status
         };
-
+        console.log(data);
         TaskDataService.update(task._id, data)
             .then(res => {
                 setTask({ ...task, completed: status });
+                console.log(task);
                 console.log(res.data);
             })
             .catch(e => {
