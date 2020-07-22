@@ -61,7 +61,8 @@ export default function Task(props) {
 
     useEffect(() => {
         getTask(props.id);
-    });
+        // eslint-disable-next-line
+    }, [props.id]);
 
     const handleToggle = (e) => {
         setChecked(e.target.checked);
