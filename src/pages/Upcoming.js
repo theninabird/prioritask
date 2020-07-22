@@ -19,10 +19,10 @@ export default function Upcoming() {
     };
 
     const formatTomorrowDate = () => {
-        var tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        return tomorrow.getDate() + "-" + (tomorrow.getMonth() + 1) + "-" + tomorrow.getFullYear();
-    }
+        var date = new Date();
+        date.setDate(date.getDate() + 1);
+        return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+      }
 
     const retrieveTasks = () => {
         var tomorrow = formatTomorrowDate();

@@ -17,7 +17,7 @@ import Chip from '@material-ui/core/Chip';
 
 const AddTask = (props) => {
     const formatDate = date => {
-        return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+        return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
     }
     
     // Add Task
@@ -38,9 +38,6 @@ const AddTask = (props) => {
     today = formatDate(today);
     tomorrow = formatDate(tomorrow);
 
-    var dueDate = new Date(String(task.dueDate));
-    dueDate = formatDate(dueDate);
-
     const handleInputChange = event => {
         const { name, value } = event.target;
         setTask({ ...task, [name]: value });
@@ -53,15 +50,16 @@ const AddTask = (props) => {
     const saveTask = () => {
         var data = {
             title: task.title,
-            dueDate: task.dueDate
+            dueDate: new Date(task.dueDate)
         };
 
         TaskDataService.create(data)
             .then(res => {
+                var dueDate = formatDate(res.data.dueDate);
                 setTask({
                     _id: res.data._id,
                     title: res.data.title,
-                    dueDate: res.data.dueDate,
+                    dueDate: dueDate,
                     subTasks: res.data.subTasks,
                     description: res.data.description,
                     completed: res.data.completed
@@ -114,7 +112,7 @@ const AddTask = (props) => {
                 />
                 <Chip label="Add tag" onClick={handleClick} />
                 <DialogContentText>DUE DATE</DialogContentText>
-                <ToggleButtonGroup name="dueDate" value={dueDate} onChange={handleToggleButtons} exclusive aria-label="text dueDate">
+                <ToggleButtonGroup name="dueDate" value={task.dueDate} onChange={handleToggleButtons} exclusive aria-label="text dueDate">
                     <ToggleButton value={today}>Today</ToggleButton>
                     <ToggleButton value={tomorrow}>Tomorrow</ToggleButton>
                     <ToggleButton value='Custom'>Custom</ToggleButton>

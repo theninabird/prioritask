@@ -23,7 +23,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 export default function Task(props) {
     const formatDate = date => {
-        return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+        return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
     }
 
     // Task properties
@@ -42,7 +42,15 @@ export default function Task(props) {
     const getTask = id => {
         TaskDataService.get(id)
             .then(res => {
-                setTask(res.data);
+                var dueDate = formatDate(res.data.dueDate);
+                setTask({
+                    _id: res.data._id,
+                    title: res.data.title,
+                    dueDate: dueDate,
+                    subTasks: res.data.subTasks,
+                    description: res.data.description,
+                    completed: res.data.completed
+                });
                 setChecked(res.data.completed);
                 console.log(res.data);
             })
@@ -80,12 +88,11 @@ export default function Task(props) {
     today = formatDate(today);
     tomorrow = formatDate(tomorrow);
 
-    var dueDate = new Date(String(task.dueDate));
-    dueDate = formatDate(dueDate);
+    var dueDate = task.dueDate;
     
     // Calculate Due Date Labels
     const DueDateChip = () => {
-        if(task.dueDate === undefined || task.dueDate === null) {
+        if(dueDate === undefined || dueDate === null) {
             return <div></div>;
         } else if (dueDate === today) {
             return <Chip label="Today" variant="outlined" />;
@@ -97,7 +104,7 @@ export default function Task(props) {
     }
 
     const DueDate = () => {
-        if(task.dueDate === undefined || task.dueDate === null) {
+        if(dueDate === undefined || dueDate === null) {
             return <div></div>;
         } else {
             return (
@@ -182,7 +189,7 @@ export default function Task(props) {
         var data = {
             _id: task._id,
             title: task.title,
-            dueDate: new Date(task.dueDate),
+            dueDate: task.dueDate,
             subTasks: task.subTasks,
             description: task.description,
             completed: status

@@ -19,8 +19,8 @@ export default function Today() {
     };
 
     const formatTodayDate = () => {
-      var today = new Date();
-      return today.getDate() + "-" + (today.getMonth() + 1) + "-" + today.getFullYear();
+      var date = new Date();
+      return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
     }
 
     const retrieveTasks = () => {
