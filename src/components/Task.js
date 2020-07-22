@@ -61,7 +61,7 @@ export default function Task(props) {
 
     useEffect(() => {
         getTask(props.id);
-    }, [props.id]);
+    });
 
     const handleToggle = (e) => {
         setChecked(e.target.checked);
