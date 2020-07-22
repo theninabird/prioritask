@@ -7,7 +7,7 @@ import NavBar from '../components/NavBar';
 import AddTask from '../components/AddTask';
 import Task from '../components/Task';
 
-export default function AllTasks() {
+export default function Upcoming() {
     const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
@@ -19,7 +19,10 @@ export default function AllTasks() {
     };
 
     const retrieveTasks = () => {
-        TaskDataService.getAll()
+        var tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        
+        TaskDataService.getDueUpcoming(tomorrow)
             .then(res => {
                 setTasks(res.data);
                 console.log(res.data);
@@ -28,7 +31,7 @@ export default function AllTasks() {
                 console.log(e);
             });
     };
-
+    
     const taskList = tasks.map(task => (
         <div>
             <Task
@@ -42,7 +45,7 @@ export default function AllTasks() {
 
     return (
         <div className="container">
-            <NavBar title="All Tasks" />
+            <NavBar title="Upcoming" />
             <AddTask refreshTasks={refreshTasks} />
             <List>
                 {taskList}  

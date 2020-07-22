@@ -1,10 +1,52 @@
-import React from 'react';
-import NavBar from '../components/NavBar';
+import React, { useState, useEffect } from 'react';
+import TaskDataService from '../services/TaskService';
 
-export default function AllTasks() {
-  return (
-    <div className="container">
-      <NavBar title="Today" />
-    </div>
-  )
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import NavBar from '../components/NavBar';
+import AddTask from '../components/AddTask';
+import Task from '../components/Task';
+
+export default function Today() {
+    const [tasks, setTasks] = useState([]);
+
+    useEffect(() => {
+        retrieveTasks();
+    }, []);
+
+    const refreshTasks = () => {
+        retrieveTasks();
+    };
+
+    const retrieveTasks = () => {
+        TaskDataService.getDueToday(new Date())
+            .then(res => {
+                setTasks(res.data);
+                console.log(res.data);
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    };
+    
+    const taskList = tasks.map(task => (
+        <div>
+            <Task
+                id={task._id}
+                refreshTasks={refreshTasks}
+            />
+            <Divider />
+        </div>
+      )
+    );
+
+    return (
+        <div className="container">
+            <NavBar title="Today" />
+            <AddTask refreshTasks={refreshTasks} />
+            <List>
+                {taskList}  
+            </List>
+        </div>
+    )
 }

@@ -24,19 +24,14 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Checkbox from '@material-ui/core/Checkbox';
 
 const NavBar = (props) => {
-    const [state, setState] = React.useState({
-        top: false,
-        left: false,
-        bottom: false,
-        right: false,
-    });
+    const [state, setState] = React.useState(false);
 
-    const toggleDrawer = (anchor, open) => (event) => {
+    const toggleDrawer = (open) => (event) => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
         }
 
-        setState({ ...state, [anchor]: open });
+        setState(open);
     };
 
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -53,7 +48,7 @@ const NavBar = (props) => {
         <div>
             <AppBar position="static">
                 <Toolbar>
-                <IconButton edge="start" onClick={toggleDrawer('left', true)} className="menuButton" color="inherit" aria-label="menu">
+                <IconButton edge="start" onClick={toggleDrawer(true)} className="menuButton" color="inherit" aria-label="menu">
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" className="title">
@@ -90,15 +85,15 @@ const NavBar = (props) => {
             <React.Fragment key='left'>
                 <SwipeableDrawer
                     anchor='left'
-                    open={state['left']}
-                    onClose={toggleDrawer('left', false)}
-                    onOpen={toggleDrawer('left', true)}
+                    open={state}
+                    onClose={toggleDrawer(false)}
+                    onOpen={toggleDrawer(true)}
                 >
                     <div
                         className="list"
                         role="presentation"
-                        onClick={toggleDrawer('left', false)}
-                        onKeyDown={toggleDrawer('left', false)}
+                        onClick={toggleDrawer(false)}
+                        onKeyDown={toggleDrawer(false)}
                     >
                         <div class="drawer-header">
                             <img id="logo" src={logo} alt="background" />
@@ -118,17 +113,20 @@ const NavBar = (props) => {
                                 </ListItem>
                             </Link>
 
-                            <ListItem button key='Upcoming'>
-                                <ListItemIcon> <MailIcon /> </ListItemIcon>
-                                <ListItemText primary='Upcoming' />
-                            </ListItem>
+                            <Link className="list-link" to="/upcoming">
+                                <ListItem button key='Upcoming'>
+                                    <ListItemIcon> <MailIcon /> </ListItemIcon>
+                                    <ListItemText primary='Upcoming' />
+                                </ListItem>
+                            </Link>
+                            
                             <ListItem button key='Tags'>
                                 <ListItemIcon> <MailIcon /> </ListItemIcon>
                                 <ListItemText primary='Tags' />
                             </ListItem>
-                            </List>
-                            <Divider></Divider>
-                            <List>
+                        </List>
+                        <Divider></Divider>
+                        <List>
                             <ListItem button key='Settings'>
                                 <ListItemIcon> <MailIcon /> </ListItemIcon>
                                 <ListItemText primary='Settings' />
