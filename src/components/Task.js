@@ -26,7 +26,7 @@ export default function Task(props) {
     const initialTaskState = {
         _id: null,
         title: "",
-        dueDate: "",
+        dueDate: {},
         subTasks: [],
         description: "",
         completed: false
@@ -69,17 +69,18 @@ export default function Task(props) {
         setViewOpen(false);
     };
 
-    // Calculate Due Date labels
+    // Due Date vars
+    var today = new Date();
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    today = today.toDateString();
+    tomorrow = tomorrow.toDateString();
+
+    var dueDate = new Date(String(task.dueDate));
+    dueDate = dueDate.toDateString();
+    
+    // Calculate Due Date Labels
     const DueDateChip = () => {
-        var today = new Date();
-        var tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        today = today.toDateString();
-        tomorrow = tomorrow.toDateString();
-
-        var dueDate = new Date(String(task.dueDate));
-        dueDate = dueDate.toDateString();
-
         if(task.dueDate === undefined || task.dueDate === null) {
             return <div></div>;
         } else if (dueDate === today) {
@@ -92,9 +93,6 @@ export default function Task(props) {
     }
 
     const DueDate = () => {
-        var dueDate = new Date(String(task.dueDate));
-        dueDate = dueDate.toDateString();
-
         if(task.dueDate === undefined || task.dueDate === null) {
             return <div></div>;
         } else {
@@ -163,13 +161,6 @@ export default function Task(props) {
     };
 
     // Edit Task
-    var today = new Date();
-    var tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    console.log(today + typeof today);
-    console.log(tomorrow + typeof tomorrow);
-    console.log(task.dueDate  + typeof task.dueDate);
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setTask({ ...task, [name]: value });
@@ -291,7 +282,7 @@ export default function Task(props) {
                     />
                     <Chip label="Add tag" />
                     <DialogContentText>DUE DATE</DialogContentText>
-                    <ToggleButtonGroup name="dueDate" value={task.dueDate} onChange={handleToggleButtons} exclusive aria-label="text dueDate">
+                    <ToggleButtonGroup name="dueDate" value={dueDate} onChange={handleToggleButtons} exclusive aria-label="text dueDate">
                         <ToggleButton value={today}>Today</ToggleButton>
                         <ToggleButton value={tomorrow}>Tomorrow</ToggleButton>
                         <ToggleButton value='Custom'>Custom</ToggleButton>
