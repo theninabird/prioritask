@@ -53,7 +53,7 @@ export default function Task(props) {
 
     const handleToggle = (e) => {
         setChecked(e.target.checked);
-        updateCompleted(checked);
+        updateCompleted(e.target.checked);
     };
 
     // Popup states
