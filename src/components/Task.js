@@ -23,7 +23,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 export default function Task(props) {
     const formatDate = date => {
-        return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        return date.getUTCFullYear() + "-" + (date.getUTCMonth() + 1) + "-" + date.getUTCDate();
     }
 
     // Task properties
