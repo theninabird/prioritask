@@ -55,7 +55,7 @@ const AddTask = (props) => {
 
         TaskDataService.create(data)
             .then(res => {
-                var dueDate = formatDate(res.data.dueDate);
+                var dueDate = formatDate(new Date(res.data.dueDate));
                 setTask({
                     _id: res.data._id,
                     title: res.data.title,
