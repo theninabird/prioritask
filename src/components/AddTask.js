@@ -47,10 +47,16 @@ const AddTask = (props) => {
         setTask({ ...task, dueDate: value });
     }
 
+    const getDateUTC = dateString => {
+        var date = new Date(dateString);
+        return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    }
+
     const saveTask = () => {
+        var dueDateUTC = getDateUTC(task.dueDate);
         var data = {
             title: task.title,
-            dueDate: new Date(Date.UTC(task.dueDate))
+            dueDate: dueDateUTC
         };
 
         console.log(data.dueDate);

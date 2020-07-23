@@ -189,11 +189,17 @@ export default function Task(props) {
         console.log("Add subtask here");
     };
 
+    const getDateUTC = dateString => {
+        var date = new Date(dateString);
+        return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    }
+
     const updateCompleted = status => {
+        var dueDateUTC = getDateUTC(task.dueDate);
         var data = {
             _id: task._id,
             title: task.title,
-            dueDate: task.dueDate,
+            dueDate: dueDateUTC,
             subTasks: task.subTasks,
             description: task.description,
             completed: status
