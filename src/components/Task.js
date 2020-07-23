@@ -23,7 +23,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 export default function Task(props) {
     const formatDate = date => {
-        return date.getUTCFullYear() + "-" + (date.getUTCMonth() + 1) + "-" + date.getUTCDate();
+        return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
     }
 
     // Task properties
@@ -86,8 +86,6 @@ export default function Task(props) {
     tomorrow.setDate(tomorrow.getDate() + 1);
     today = formatDate(today);
     tomorrow = formatDate(tomorrow);
-
-    console.log(today);
 
     var dueDate;
     if(task.dueDate === null) {
