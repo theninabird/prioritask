@@ -54,8 +54,11 @@ const AddTask = (props) => {
 
     const saveTask = () => {
         var dueDate;
-        if(task.dueDate === null) dueDate = null;
-        else dueDate = formatDate(task.dueDate);
+        if(task.dueDate === null) {
+            dueDate = null;
+        } else {
+            dueDate = formatDate(task.dueDate);
+        }
 
         var data = {
             title: task.title,
