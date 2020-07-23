@@ -53,7 +53,9 @@ const AddTask = (props) => {
     }
 
     const saveTask = () => {
-        var dueDateUTC = getDateUTC(task.dueDate);
+        var dueDateUTC;
+        if(task.dueDate === null) dueDateUTC = null;
+        else dueDateUTC = getDateUTC(task.dueDate);
         var data = {
             title: task.title,
             dueDate: dueDateUTC
