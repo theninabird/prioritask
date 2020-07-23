@@ -87,7 +87,7 @@ export default function Task(props) {
     today = formatDate(today);
     tomorrow = formatDate(tomorrow);
 
-    var dueDate = formatDate(task.dueDate);
+    var dueDate = formatDate(new Date(task.dueDate));
     
     // Calculate Due Date Labels
     const DueDateChip = () => {
