@@ -53,6 +53,8 @@ const AddTask = (props) => {
             dueDate: new Date(task.dueDate)
         };
 
+        console.log(data.dueDate);
+
         TaskDataService.create(data)
             .then(res => {
                 var dueDate = formatDate(new Date(res.data.dueDate));
