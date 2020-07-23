@@ -1,4 +1,5 @@
 import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 
 import './NavBar.css';
@@ -23,7 +24,14 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Checkbox from '@material-ui/core/Checkbox';
 
+const useStyles = makeStyles({
+    primary: {
+        backgroundColor: '#577568',
+    },
+ });
+
 const NavBar = (props) => {
+    const classes = useStyles();
     const [state, setState] = React.useState(false);
 
     const toggleDrawer = (open) => (event) => {
@@ -46,7 +54,7 @@ const NavBar = (props) => {
 
     return (
         <div>
-            <AppBar position="static">
+            <AppBar className={classes.primary} position="static">
                 <Toolbar>
                 <IconButton edge="start" onClick={toggleDrawer(true)} className="menuButton" color="inherit" aria-label="menu">
                     <MenuIcon />
@@ -95,7 +103,7 @@ const NavBar = (props) => {
                         onClick={toggleDrawer(false)}
                         onKeyDown={toggleDrawer(false)}
                     >
-                        <div class="drawer-header">
+                        <div className="drawer-header">
                             <img id="logo" src={logo} alt="background" />
                         </div>
                         <List>

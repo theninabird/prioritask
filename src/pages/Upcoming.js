@@ -11,7 +11,18 @@ export default function Upcoming() {
     const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
-        retrieveTasks();
+        let mounted = true;
+        var tomorrow = formatTomorrowDate();
+
+        TaskDataService.getDueUpcoming(tomorrow)
+            .then(res => {
+                if(mounted) {
+                    setTasks(res.data);
+                }
+            })
+            .catch(e => {
+                console.log(e);
+            });
     });
 
     const refreshTasks = () => {
@@ -30,7 +41,6 @@ export default function Upcoming() {
         TaskDataService.getDueUpcoming(tomorrow)
             .then(res => {
                 setTasks(res.data);
-                console.log(res.data);
             })
             .catch(e => {
                 console.log(e);
@@ -38,7 +48,7 @@ export default function Upcoming() {
     };
     
     const taskList = tasks.map(task => (
-        <div>
+        <div key={task._id}>
             <Task
                 id={task._id}
                 refreshTasks={refreshTasks}

@@ -30,7 +30,7 @@ export default function AllTasks() {
     };
 
     const taskList = tasks.map(task => (
-        <div>
+        <div key={task._id}>
             <Task
                 id={task._id}
                 refreshTasks={refreshTasks}

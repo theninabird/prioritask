@@ -1,3 +1,12 @@
+#form-dialog-title {
+    padding-bottom: 0;
+}
+
+.MuiDialogContentText-root {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .fab-container {
     position: fixed;
     right: 20px;

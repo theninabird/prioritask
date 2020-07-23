@@ -11,7 +11,18 @@ export default function Today() {
     const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
-        retrieveTasks();
+      let mounted = true;
+      var today = formatTodayDate();
+
+      TaskDataService.getDueToday(today)
+        .then(res => {
+            if(mounted) {
+              setTasks(res.data);
+            }
+        })
+        .catch(e => {
+            console.log(e);
+        });
     });
 
     const refreshTasks = () => {
@@ -29,7 +40,6 @@ export default function Today() {
       TaskDataService.getDueToday(today)
           .then(res => {
               setTasks(res.data);
-              console.log(res.data);
           })
           .catch(e => {
               console.log(e);
@@ -37,10 +47,10 @@ export default function Today() {
     };
     
     const taskList = tasks.map(task => (
-        <div>
+        <div key={task._id}>
             <Task
-                id={task._id}
-                refreshTasks={refreshTasks}
+              id={task._id}
+              refreshTasks={refreshTasks}
             />
             <Divider />
         </div>

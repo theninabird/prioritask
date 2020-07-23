@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import TaskDataService from "../services/TaskService";
 import './Task.css';
 
@@ -21,7 +22,19 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
+const useStyles = makeStyles({
+    menuIcon: {
+        float: "right",
+        padding: 0,
+    },
+    headings: {
+        marginTop: '10px',
+        marginBottom: 0,
+    },
+});
+
 export default function Task(props) {
+    const classes = useStyles();
     const formatDate = date => {
         return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
     }
@@ -113,7 +126,7 @@ export default function Task(props) {
         } else {
             return (
                 <div>
-                    <DialogContentText>DUE DATE</DialogContentText>
+                    <DialogContentText className={classes.headings}>DUE DATE</DialogContentText>
                     <p>{dueDate}</p>
                 </div>
             );
@@ -126,7 +139,7 @@ export default function Task(props) {
         } else {
             return (
                 <div>
-                    <DialogContentText>SUBTASKS</DialogContentText>
+                    <DialogContentText className={classes.headings}>SUBTASKS</DialogContentText>
                 </div>
             );
         }
@@ -138,7 +151,7 @@ export default function Task(props) {
         } else {
             return (
                 <div>
-                    <DialogContentText>DESCRIPTION</DialogContentText>
+                    <DialogContentText className={classes.headings}>DESCRIPTION</DialogContentText>
                     <p>{task.description}</p>
                 </div>
             );
@@ -251,11 +264,11 @@ export default function Task(props) {
             </ListItem>
 
             {/* VIEW TASK */}
-            <Dialog open={viewOpen} onClose={handleViewClose} aria-labelledby="form-dialog-title">
+            <Dialog fullWidth={true} open={viewOpen} onClose={handleViewClose} aria-labelledby="form-dialog-title">
                 <div className="inline">
                     <DialogTitle id="form-dialog-title">
                         View Task
-                        <IconButton className="task-menu-button" aria-label="display more actions" color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleMenuClick}>
+                        <IconButton className={classes.menuIcon} aria-label="display more actions" color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleMenuClick}>
                             <MoreIcon />
                         </IconButton>
                     </DialogTitle>
@@ -301,14 +314,14 @@ export default function Task(props) {
                         name="title"
                         onChange={handleInputChange}
                     />
-                    <Chip label="Add tag" />
-                    <DialogContentText>DUE DATE</DialogContentText>
-                    <ToggleButtonGroup name="dueDate" value={dueDate} onChange={handleToggleButtons} exclusive aria-label="text dueDate">
+                    {/* <Chip label="Add tag" /> */}
+                    <DialogContentText className={classes.headings}>DUE DATE</DialogContentText>
+                    <ToggleButtonGroup name="dueDate" value={dueDate} onChange={handleToggleButtons} exclusive size="small" aria-label="text dueDate">
                         <ToggleButton value={today}>Today</ToggleButton>
                         <ToggleButton value={tomorrow}>Tomorrow</ToggleButton>
                         <ToggleButton value='Custom'>Custom</ToggleButton>
                     </ToggleButtonGroup>
-                    <DialogContentText>SUBTASKS</DialogContentText>
+                    <DialogContentText className={classes.headings}>SUBTASKS</DialogContentText>
                     <Button onClick={addSubtask} color="primary">
                         Add Subtask
                     </Button>

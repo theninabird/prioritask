@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import TaskDataService from "../services/TaskService";
 import './AddTask.css';
 
@@ -13,9 +14,22 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Chip from '@material-ui/core/Chip';
+//import Chip from '@material-ui/core/Chip';
+
+const useStyles = makeStyles({
+    headings: {
+        margin: '10px 0',
+    },
+    primary: {
+        backgroundColor: '#577568',
+    },
+    primaryColor: {
+        color: '#577568',
+    },
+});
 
 const AddTask = (props) => {
+    const classes = useStyles();
     const formatDate = date => {
         return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
     }
@@ -24,7 +38,7 @@ const AddTask = (props) => {
     const initialTaskState = {
         _id: null,
         title: "",
-        dueDate: "",
+        dueDate: null,
         subTasks: [],
         description: "",
         completed: false
@@ -53,21 +67,17 @@ const AddTask = (props) => {
     // }
 
     const saveTask = () => {
-        var dueDate;
-        if(task.dueDate === null) {
-            dueDate = null;
-        } else {
-            dueDate = formatDate(task.dueDate);
-        }
-
         var data = {
             title: task.title,
-            dueDate: dueDate
+            dueDate: task.dueDate
         };
 
         TaskDataService.create(data)
             .then(res => {
-                var dueDate = formatDate(new Date(res.data.dueDate));
+                var dueDate;
+                if(res.data.dueDate === null) dueDate = null;
+                else dueDate = formatDate(new Date(res.data.dueDate));
+
                 setTask({
                     _id: res.data._id,
                     title: res.data.title,
@@ -96,14 +106,10 @@ const AddTask = (props) => {
         setOpen(false);
     };
 
-    const handleClick = () => {
-        console.log('Clicked');
-    };
-
     return ( 
         <div>
             <div className="fab-container">
-                <Fab color="secondary" aria-label="add" className="fab" onClick={handleClickOpen}>
+                <Fab className={classes.primary} aria-label="add" onClick={handleClickOpen}>
                     <AddIcon />
                 </Fab>
             </div>
@@ -112,6 +118,7 @@ const AddTask = (props) => {
                 <DialogTitle id="form-dialog-title">Add Task</DialogTitle>
                 <DialogContent>
                 <TextField
+                    className={classes.primaryColor} 
                     autoFocus
                     margin="dense"
                     id="title"
@@ -122,19 +129,15 @@ const AddTask = (props) => {
                     value={task.title}
                     onChange={handleInputChange}
                 />
-                <Chip label="Add tag" onClick={handleClick} />
-                <DialogContentText>DUE DATE</DialogContentText>
-                <ToggleButtonGroup name="dueDate" value={task.dueDate} onChange={handleToggleButtons} exclusive aria-label="text dueDate">
+                {/* <Chip label="Add tag" onClick={handleClick} /> */}
+                <DialogContentText className={classes.headings}>DUE DATE</DialogContentText>
+                
+                <ToggleButtonGroup className={classes.primaryColor} name="dueDate" value={task.dueDate} onChange={handleToggleButtons} exclusive size="small" aria-label="text dueDate">
                     <ToggleButton value={today}>Today</ToggleButton>
                     <ToggleButton value={tomorrow}>Tomorrow</ToggleButton>
                     <ToggleButton value='Custom'>Custom</ToggleButton>
                 </ToggleButtonGroup>
-                {/* <DialogContentText>REMINDERS</DialogContentText>
-                <ButtonGroup color="primary" aria-label="outlined primary button group">
-                    <Button>Add date</Button>
-                    <Button>Add time</Button>
-                    <Button>Repeat?</Button>
-                </ButtonGroup> */}
+  
                 </DialogContent>
                 <DialogActions>
                 <Button onClick={handleClose} color="primary">
