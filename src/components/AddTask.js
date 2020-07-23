@@ -49,7 +49,6 @@ const AddTask = (props) => {
 
     const getDateUTC = dateString => {
         var date = new Date(dateString);
-        console.log(date);
         return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
     }
 
@@ -57,14 +56,12 @@ const AddTask = (props) => {
         var dueDateUTC;
         if(task.dueDate === null) dueDateUTC = null;
         else dueDateUTC = getDateUTC(task.dueDate);
-        console.log(dueDateUTC);
+
         var data = {
             title: task.title,
             dueDate: dueDateUTC
         };
-
-        console.log(data.dueDate);
-
+        
         TaskDataService.create(data)
             .then(res => {
                 var dueDate = formatDate(new Date(res.data.dueDate));

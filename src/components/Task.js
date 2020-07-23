@@ -87,6 +87,8 @@ export default function Task(props) {
     today = formatDate(today);
     tomorrow = formatDate(tomorrow);
 
+    console.log(today);
+
     var dueDate;
     if(task.dueDate === null) {
         dueDate = null;
