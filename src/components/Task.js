@@ -87,11 +87,16 @@ export default function Task(props) {
     today = formatDate(today);
     tomorrow = formatDate(tomorrow);
 
-    var dueDate = formatDate(new Date(task.dueDate));
+    var dueDate;
+    if(task.dueDate === null) {
+        dueDate = null;
+    } else {
+        dueDate = formatDate(new Date(task.dueDate));
+    }
     
     // Calculate Due Date Labels
     const DueDateChip = () => {
-        if(dueDate === undefined || dueDate === null) {
+        if(dueDate === null) {
             return <div></div>;
         } else if (dueDate === today) {
             return <Chip label="Today" variant="outlined" />;
