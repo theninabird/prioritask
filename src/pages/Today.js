@@ -14,8 +14,6 @@ export default function Today() {
       let mounted = true;
       var today = formatTodayDate();
 
-      console.log(today);
-
       TaskDataService.getDueToday(today)
         .then(res => {
             if(mounted) {
