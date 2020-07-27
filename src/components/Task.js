@@ -47,7 +47,7 @@ const useStyles = makeStyles({
 export default function Task(props) {
     const classes = useStyles();
     const formatDate = date => {
-        return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getUTCDate();
     }
 
     // Task properties
