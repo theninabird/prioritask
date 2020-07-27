@@ -10,8 +10,8 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
+//import Dialog from '@material-ui/core/Dialog';
+//import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
@@ -66,27 +66,27 @@ export default function AddSubTasks(props) {
     //     updateSubTask(id, subTaskElem);
     // };
 
-    const [viewDeleteMessage, setViewDeleteMessage] = useState(false);
-    const [subTaskId, setSubTaskId] = useState('');
+    // const [viewDeleteMessage, setViewDeleteMessage] = useState(false);
+    // const [subTaskId, setSubTaskId] = useState('');
 
-    const handleSubTaskDelete = (id) => {
-        setViewDeleteMessage(true);
-        setSubTaskId(id);
-    }
+    // const handleSubTaskDelete = (id) => {
+    //     setViewDeleteMessage(true);
+    //     setSubTaskId(id);
+    // }
 
-    const handleDeleteMessageClose = () => {
-        setViewDeleteMessage(false);
-    }
+    // const handleDeleteMessageClose = () => {
+    //     setViewDeleteMessage(false);
+    // }
 
-    const deleteSubTask = () => {
-        SubTaskDataService.remove(subTaskId)
-            .then(res => {
-                console.log(res.data);
-            })
-            .catch(e => {
-                console.log(e);
-            });
-    };
+    // const deleteSubTask = () => {
+    //     SubTaskDataService.remove(subTaskId)
+    //         .then(res => {
+    //             console.log(res.data);
+    //         })
+    //         .catch(e => {
+    //             console.log(e);
+    //         });
+    // };
 
     const updateSubTask = (id, data) => {
         SubTaskDataService.update(id, data)
@@ -174,7 +174,7 @@ export default function AddSubTasks(props) {
                 </Button>
             </div>
 
-            <Dialog fullWidth={true} open={viewDeleteMessage} onClose={handleDeleteMessageClose} aria-labelledby="subtask-delete-confirmation">
+            {/* <Dialog fullWidth={true} open={viewDeleteMessage} onClose={handleDeleteMessageClose} aria-labelledby="subtask-delete-confirmation">
                 <DialogContentText>Are you sure you want to delete?</DialogContentText>
                 <DialogActions>
                     <Button onClick={deleteSubTask} color="primary">
@@ -184,7 +184,7 @@ export default function AddSubTasks(props) {
                         Cancel
                     </Button>
                 </DialogActions>
-            </Dialog>
+            </Dialog> */}
         </div>
     );
 }
