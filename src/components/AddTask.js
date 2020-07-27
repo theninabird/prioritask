@@ -43,7 +43,6 @@ export default function AddTask(props) {
         _id: null,
         title: "",
         dueDate: null,
-        subTasks: [],
         description: "",
         completed: false
     };

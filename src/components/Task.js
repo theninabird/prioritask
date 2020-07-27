@@ -55,7 +55,6 @@ export default function Task(props) {
         _id: null,
         title: "",
         dueDate: "",
-        subTasks: [],
         description: "",
         completed: false
     };
@@ -76,7 +75,6 @@ export default function Task(props) {
                     _id: res.data._id,
                     title: res.data.title,
                     dueDate: dueDate,
-                    subTasks: res.data.subTasks,
                     description: res.data.description,
                     completed: res.data.completed
                 });
@@ -219,7 +217,6 @@ export default function Task(props) {
             _id: task._id,
             title: task.title,
             dueDate: task.dueDate,
-            subTasks: task.subTasks,
             description: task.description,
             completed: status
         };
@@ -239,7 +236,6 @@ export default function Task(props) {
         var data = {
             title: task.title,
             dueDate: updatedDate,
-            subTasks: task.subTasks,
             description: task.description,
             completed: task.completed
         };
