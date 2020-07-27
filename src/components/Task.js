@@ -3,6 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import TaskDataService from "../services/TaskService";
 import './Task.css';
 
+import ViewSubTasks from "./ViewSubTasks";
+import AddSubTasks from "./AddSubTasks";
+
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -21,6 +24,11 @@ import IconButton from '@material-ui/core/IconButton';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 const useStyles = makeStyles({
     menuIcon: {
@@ -30,6 +38,9 @@ const useStyles = makeStyles({
     headings: {
         marginTop: '10px',
         marginBottom: 0,
+    },
+    descriptionField: {
+        marginTop: '20px',
     },
 });
 
@@ -48,17 +59,23 @@ export default function Task(props) {
         description: "",
         completed: false
     };
-    const [task, setTask] = useState(initialTaskState);
 
+    const [task, setTask] = useState(initialTaskState);
     const [checked, setChecked] = useState(false);
 
-    const getTask = id => {
-        TaskDataService.get(id)
+    useEffect(() => {
+        TaskDataService.get(props.id)
             .then(res => {
+                var dueDate;
+                if(res.data.dueDate === null) {
+                    dueDate = null;
+                } else {
+                    dueDate = formatDate(new Date(res.data.dueDate));
+                }
                 setTask({
                     _id: res.data._id,
                     title: res.data.title,
-                    dueDate: res.data.dueDate,
+                    dueDate: dueDate,
                     subTasks: res.data.subTasks,
                     description: res.data.description,
                     completed: res.data.completed
@@ -69,10 +86,6 @@ export default function Task(props) {
             .catch(e => {
                 console.log(e);
             });
-    };
-
-    useEffect(() => {
-        getTask(props.id);
     }, [props.id]);
 
     const handleToggle = (e) => {
@@ -94,57 +107,40 @@ export default function Task(props) {
     };
 
     // Due Date vars
-    var today = new Date();
-    var tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    today = formatDate(today);
-    tomorrow = formatDate(tomorrow);
-
-    var dueDate;
-    if(task.dueDate === null) {
-        dueDate = null;
-    } else {
-        dueDate = formatDate(new Date(task.dueDate));
-    }
+    var todayDate = new Date();
+    var tomorrowDate = new Date();
+    tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+    var dayAfterTomorrowDate = new Date();
+    dayAfterTomorrowDate.setDate(tomorrowDate.getDate() + 1);
+    var today = formatDate(todayDate);
+    var tomorrow = formatDate(tomorrowDate);
     
     // Calculate Due Date Labels
     const DueDateChip = () => {
-        if(dueDate === null) {
+        if(task.dueDate === null) {
             return <div></div>;
-        } else if (dueDate === today) {
-            return <Chip label="Today" variant="outlined" />;
-        } else if (dueDate === tomorrow) {
-            return <Chip label="Tomorrow" variant="outlined" />;
+        } else if (task.dueDate === today) {
+            return <Chip label="Today" variant="outlined" style={{color:'#ED6A5A', borderColor:'#ED6A5A'}} />;
+        } else if (task.dueDate === tomorrow) {
+            return <Chip label="Tomorrow" variant="outlined" style={{color:'#7D1538', borderColor:'#7D1538'}} />;
         } else {
-            return <Chip label={dueDate} variant="outlined" />;
+            return <Chip label={task.dueDate} variant="outlined" style={{color:'#084C61', borderColor:'#084C61'}} />;
         }
     }
 
     const DueDate = () => {
-        if(dueDate === undefined || dueDate === null) {
+        if(task.dueDate === undefined || task.dueDate === null) {
             return <div></div>;
         } else {
             return (
                 <div>
                     <DialogContentText className={classes.headings}>DUE DATE</DialogContentText>
-                    <p>{dueDate}</p>
+                    <p>{task.dueDate}</p>
                 </div>
             );
         }
     }
-
-    const SubTasks = () => {
-        if(task.subTasks === undefined || task.subTasks.length === 0) {
-            return <div></div>;
-        } else {
-            return (
-                <div>
-                    <DialogContentText className={classes.headings}>SUBTASKS</DialogContentText>
-                </div>
-            );
-        }
-    }
-
+ 
     const Description = () => {
         if(task.description === undefined || task.description.length === 0) {
             return <div></div>;
@@ -189,30 +185,40 @@ export default function Task(props) {
     };
 
     // Edit Task
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
+    const [selectedDate, setSelectedDate] = useState(dayAfterTomorrowDate);
+    const [showDatePicker, setShowDatePicker] = useState(false);
+
+    const handleInputChange = event => {
+        const { name, value } = event.target;
         setTask({ ...task, [name]: value });
     }
 
     const handleToggleButtons = (event, value) => {
-        setTask({ ...task, dueDate: value });
+        if(event.target.name !== 'custom' && showDatePicker === true) setShowDatePicker(false);
+
+        if(typeof value !== "string") {
+            var newDate = formatDate(selectedDate);
+            setTask({ ...task, dueDate: newDate });
+        } else {
+            setTask({ ...task, dueDate: value });
+        }
     }
 
-    const addSubtask = () => {
-        console.log("Add subtask here");
-    };
-
-    const getDateUTC = dateString => {
-        var date = new Date(dateString);
-        return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    const toggleDatePicker = () => {
+        setShowDatePicker(!showDatePicker);
     }
+
+    const handleDateChange = (date) => {
+        var newDate = formatDate(date);
+        setTask({ ...task, dueDate: newDate });
+        setSelectedDate(date);
+    };    
 
     const updateCompleted = status => {
-        var dueDateUTC = getDateUTC(task.dueDate);
         var data = {
             _id: task._id,
             title: task.title,
-            dueDate: dueDateUTC,
+            dueDate: task.dueDate,
             subTasks: task.subTasks,
             description: task.description,
             completed: status
@@ -229,13 +235,23 @@ export default function Task(props) {
     };
 
     const updateTask = () => {
-        TaskDataService.update(task._id, task)
+        var updatedDate = new Date(task.dueDate);
+        var data = {
+            title: task.title,
+            dueDate: updatedDate,
+            subTasks: task.subTasks,
+            description: task.description,
+            completed: task.completed
+        };
+
+        TaskDataService.update(task._id, data)
             .then(res => {
                 console.log(res.data);
             })
             .catch(e => {
                 console.log(e);
             });
+        setShowDatePicker(false);
         handleEditClose();
         viewTask();
     };
@@ -250,6 +266,7 @@ export default function Task(props) {
             <ListItem key={props.id} role={undefined} dense button>
                 <ListItemIcon>
                     <Checkbox
+                        color="primary"
                         edge="start"
                         checked={checked}
                         disableRipple
@@ -276,9 +293,9 @@ export default function Task(props) {
                 
                 <DialogContent>
                     <h1>{task.title}</h1>
-                    {/* Tags */}
+
                     <DueDate />
-                    <SubTasks />
+                    <ViewSubTasks taskId={props.id} />
                     <Description />
                 </DialogContent>
                 <DialogActions>
@@ -314,18 +331,34 @@ export default function Task(props) {
                         name="title"
                         onChange={handleInputChange}
                     />
-                    {/* <Chip label="Add tag" /> */}
                     <DialogContentText className={classes.headings}>DUE DATE</DialogContentText>
-                    <ToggleButtonGroup name="dueDate" value={dueDate} onChange={handleToggleButtons} exclusive size="small" aria-label="text dueDate">
-                        <ToggleButton value={today}>Today</ToggleButton>
-                        <ToggleButton value={tomorrow}>Tomorrow</ToggleButton>
-                        <ToggleButton value='Custom'>Custom</ToggleButton>
+
+                    <ToggleButtonGroup className={classes.primaryColor} name="dueDate" value={task.dueDate} onChange={handleToggleButtons} exclusive size="small" aria-label="text dueDate">
+                        <ToggleButton name="today" value={today}>Today</ToggleButton>
+                        <ToggleButton name="tomorrow" value={tomorrow}>Tomorrow</ToggleButton>
+                        <ToggleButton onClick={toggleDatePicker} name="custom" value={selectedDate}>Custom</ToggleButton>
                     </ToggleButtonGroup>
-                    <DialogContentText className={classes.headings}>SUBTASKS</DialogContentText>
-                    <Button onClick={addSubtask} color="primary">
-                        Add Subtask
-                    </Button>
+
+                    {showDatePicker ? (
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <KeyboardDatePicker
+                                format="MM/dd/yyyy"
+                                margin="normal"
+                                id="date-picker"
+                                label="Select Due Date"
+                                value={selectedDate}
+                                onChange={handleDateChange}
+                                KeyboardButtonProps={{
+                                    'aria-label': 'change date',
+                                }}
+                            />
+                        </MuiPickersUtilsProvider>
+                    ) : null}
+
+                    <AddSubTasks taskId={props.id} />
+
                     <TextField
+                        className={classes.descriptionField}
                         margin="dense"
                         id="description"
                         type="description"

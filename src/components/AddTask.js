@@ -14,7 +14,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-//import Chip from '@material-ui/core/Chip';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 const useStyles = makeStyles({
     headings: {
@@ -28,7 +32,7 @@ const useStyles = makeStyles({
     },
 });
 
-const AddTask = (props) => {
+export default function AddTask(props) {
     const classes = useStyles();
     const formatDate = date => {
         return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
@@ -44,13 +48,16 @@ const AddTask = (props) => {
         completed: false
     };
     const [task, setTask] = useState(initialTaskState);
-
+    
     // Due Date vars
-    var today = new Date();
-    var tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    today = formatDate(today);
-    tomorrow = formatDate(tomorrow);
+    var todayDate = new Date();
+    var tomorrowDate = new Date();
+    tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+    var today = formatDate(todayDate);
+    var tomorrow = formatDate(tomorrowDate);
+
+    const [selectedDate, setSelectedDate] = useState(todayDate);
+    const [showDatePicker, setShowDatePicker] = useState(false);
 
     const handleInputChange = event => {
         const { name, value } = event.target;
@@ -58,13 +65,23 @@ const AddTask = (props) => {
     }
 
     const handleToggleButtons = (event, value) => {
-        setTask({ ...task, dueDate: value });
+        if(event.target.name !== 'custom' && showDatePicker === true) setShowDatePicker(false);
+        
+        if(event.target.name === 'custom') {
+            setTask({ ...task, dueDate: selectedDate });
+        } else {
+            setTask({ ...task, dueDate: value });
+        }
     }
 
-    // const getDateUTC = dateString => {
-    //     var date = new Date(dateString);
-    //     return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-    // }
+    const toggleDatePicker = () => {
+        setShowDatePicker(!showDatePicker);
+    }
+
+    const handleDateChange = (date) => {
+        setTask({ ...task, dueDate: date });
+        setSelectedDate(date);
+    };
 
     const saveTask = () => {
         var data = {
@@ -74,18 +91,8 @@ const AddTask = (props) => {
 
         TaskDataService.create(data)
             .then(res => {
-                var dueDate;
-                if(res.data.dueDate === null) dueDate = null;
-                else dueDate = formatDate(new Date(res.data.dueDate));
-
-                setTask({
-                    _id: res.data._id,
-                    title: res.data.title,
-                    dueDate: dueDate,
-                    subTasks: res.data.subTasks,
-                    description: res.data.description,
-                    completed: res.data.completed
-                });
+                setTask(initialTaskState);
+                setSelectedDate(todayDate);
                 console.log(res.data);
                 props.refreshTasks();
                 setOpen(false);
@@ -135,8 +142,24 @@ const AddTask = (props) => {
                 <ToggleButtonGroup className={classes.primaryColor} name="dueDate" value={task.dueDate} onChange={handleToggleButtons} exclusive size="small" aria-label="text dueDate">
                     <ToggleButton value={today}>Today</ToggleButton>
                     <ToggleButton value={tomorrow}>Tomorrow</ToggleButton>
-                    <ToggleButton value='Custom'>Custom</ToggleButton>
+                    <ToggleButton onClick={toggleDatePicker} name="custom" value={selectedDate}>Custom</ToggleButton>
                 </ToggleButtonGroup>
+
+                {showDatePicker ? (
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <KeyboardDatePicker
+                            format="MM/dd/yyyy"
+                            margin="normal"
+                            id="date-picker"
+                            label="Select Due Date"
+                            value={selectedDate}
+                            onChange={handleDateChange}
+                            KeyboardButtonProps={{
+                                'aria-label': 'change date',
+                            }}
+                        />
+                    </MuiPickersUtilsProvider>
+                ) : null}
   
                 </DialogContent>
                 <DialogActions>
@@ -149,6 +172,5 @@ const AddTask = (props) => {
                 </DialogActions>
             </Dialog>
         </div>
-    )
+    );
 }
-export default AddTask;

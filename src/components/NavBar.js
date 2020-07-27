@@ -10,15 +10,14 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import MoreIcon from '@material-ui/icons/MoreVert';
+// import SearchIcon from '@material-ui/icons/Search';
+// import MoreIcon from '@material-ui/icons/MoreVert';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
+// import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-// import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -44,9 +43,9 @@ const NavBar = (props) => {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
+    // const handleClick = (event) => {
+    //     setAnchorEl(event.currentTarget);
+    // };
 
     const handleClose = () => {
         setAnchorEl(null);
@@ -62,12 +61,12 @@ const NavBar = (props) => {
                 <Typography variant="h6" className="title">
                     {props.title}
                 </Typography>
-                <IconButton aria-label="search" color="inherit">
+                {/* <IconButton aria-label="search" color="inherit">
                     <SearchIcon />
                 </IconButton>
                 <IconButton aria-label="display more actions" edge="end" color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                     <MoreIcon />
-                </IconButton>
+                </IconButton> */}
                 </Toolbar>
             </AppBar>
 
@@ -128,18 +127,18 @@ const NavBar = (props) => {
                                 </ListItem>
                             </Link>
                             
-                            <ListItem button key='Tags'>
+                            {/* <ListItem button key='Tags'>
                                 <ListItemIcon> <MailIcon /> </ListItemIcon>
                                 <ListItemText primary='Tags' />
-                            </ListItem>
+                            </ListItem> */}
                         </List>
-                        <Divider></Divider>
+                        {/* <Divider></Divider>
                         <List>
                             <ListItem button key='Settings'>
                                 <ListItemIcon> <MailIcon /> </ListItemIcon>
                                 <ListItemText primary='Settings' />
                             </ListItem>
-                        </List>
+                        </List> */}
                     </div>
                 </SwipeableDrawer>
             </React.Fragment>

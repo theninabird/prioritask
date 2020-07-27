@@ -22,7 +22,6 @@ export default function AllTasks() {
         TaskDataService.getAll()
             .then(res => {
                 setTasks(res.data);
-                //console.log(res.data);
             })
             .catch(e => {
                 console.log(e);
