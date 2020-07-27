@@ -31,7 +31,7 @@ export default function Today() {
 
     const formatTodayDate = () => {
       var date = new Date();
-      return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+      return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getUTCDate();
     }
 
     const retrieveTasks = () => {
