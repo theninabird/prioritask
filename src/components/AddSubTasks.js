@@ -56,15 +56,15 @@ export default function AddSubTasks(props) {
         setSubTaskTitle(event.target.value);
     }
 
-    const editSubTask = (id) => {
-        let subTasksArr = [...subTasks];
-        let index = subTasksArr.findIndex(elem => elem._id === id);
-        subTasksArr[index].title = subTaskTitle;
-        let subTaskElem = subTasksArr[index];
-        setSubTasks(subTasksArr);
-
-        updateSubTask(id, subTaskElem);
-    };
+    // const editSubTask = (id) => {
+    //     let subTasksArr = [...subTasks];
+    //     let index = subTasksArr.findIndex(elem => elem._id === id);
+    //     subTasksArr[index].title = subTaskTitle;
+    //     let subTaskElem = subTasksArr[index];
+    //     setSubTasks(subTasksArr);
+    //
+    //     updateSubTask(id, subTaskElem);
+    // };
 
     const [viewDeleteMessage, setViewDeleteMessage] = useState(false);
     const [subTaskId, setSubTaskId] = useState('');
